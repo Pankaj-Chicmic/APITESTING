@@ -7,6 +7,7 @@ using System.Collections;
 
 public class LoggedInPanel : MonoBehaviour,PanelInterface
 {
+    [SerializeField] private UI ui;
     [SerializeField] private GameObject loggedInPanel;
     [SerializeField] private GameObject loginInPanel;
     [SerializeField] private GameObject carPanel;
@@ -45,7 +46,7 @@ public class LoggedInPanel : MonoBehaviour,PanelInterface
     }
     private void GetBuyCarPanel()
     {
-        StartCoroutine(ChangePanel(loggedInPanel, carPanel,0));
+        StartCoroutine(ui.ChangePanel(loggedInPanel, carPanel,0));
     }
     private void LogOut()
     {
@@ -53,7 +54,7 @@ public class LoggedInPanel : MonoBehaviour,PanelInterface
         PlayerPrefs.SetString(AllConstants.playerPrefUserNameVariableName, "");
         PlayerPrefs.SetString(AllConstants.playerPrefEmailVariableName, "");
         loginInPanel.SetActive(true);
-        StartCoroutine(ChangePanel(loggedInPanel, loginInPanel, 0));
+        StartCoroutine(ui.ChangePanel(loggedInPanel, loginInPanel, 0));
     }
     private void onEmailUpdateSuccessMethod(string jsonData)
     {
@@ -64,7 +65,6 @@ public class LoggedInPanel : MonoBehaviour,PanelInterface
     }
     private void onEmailUpdateFailureMethod(string jsonData)
     {
-        Debug.Log(jsonData);
         EmailUpdateType emailUpdateType = JsonUtility.FromJson<EmailUpdateType>(jsonData);
         emailUpdateMessage.gameObject.SetActive(true);
         if (emailUpdateType != null && emailUpdateType.message != null && emailUpdateType.message == AllConstants.emailDuplicateMessage)
@@ -82,19 +82,6 @@ public class LoggedInPanel : MonoBehaviour,PanelInterface
     {
         string pattern = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$";
         return Regex.IsMatch(email, pattern, RegexOptions.IgnoreCase);
-    }
-    private IEnumerator ChangePanel(GameObject toSetFalse, GameObject toSetTrue, int time, TextMeshProUGUI textChange = null, string text = "")
-    {
-        if (textChange != null)
-        {
-            textChange.gameObject.SetActive(true);
-            textChange.text = text;
-        }
-        yield return new WaitForSeconds(time);
-        if (textChange != null) textChange.gameObject.SetActive(false);
-        toSetFalse.SetActive(false);
-        toSetTrue.SetActive(true);
-        toSetTrue.GetComponent<PanelInterface>().ClearTexts();
     }
     public void ChangeEmailFieldStatus()
     {

@@ -7,6 +7,7 @@ using System.Collections;
 
 public class LoginPanel : MonoBehaviour,PanelInterface
 {
+    [SerializeField] private UI ui;
     [SerializeField]private GameObject logInPanel;
     [SerializeField]private GameObject loggedInPanel;
     [SerializeField]private GameObject guestLoginPanel;
@@ -33,13 +34,13 @@ public class LoginPanel : MonoBehaviour,PanelInterface
     }
     private void GoToGuestLoginPanel()
     {
-        StartCoroutine(ChangePanel(logInPanel, guestLoginPanel,0));
+        StartCoroutine(ui.ChangePanel(logInPanel, guestLoginPanel,0));
     }
     private void OnLoginSuccessMethod(string jsonData)
     {
         GuestLoginDownloadHandlerType guestLoginDownloadHandlerType = JsonUtility.FromJson<GuestLoginDownloadHandlerType>(jsonData);
         PlayerPrefs.SetString(AllConstants.playerPrefAccessTokenVariableName, guestLoginDownloadHandlerType.data);
-        StartCoroutine(ChangePanel(logInPanel, loggedInPanel, 2, loginMessageText, "SuccesFully logged In as "));
+        StartCoroutine(ui.ChangePanel(logInPanel, loggedInPanel, 2, loginMessageText, "SuccesFully logged In as "));
         loggedInPanel.GetComponent<LoggedInPanel>().SetLoggedInDetails();
     }
     private void OnLoginFailureMethod(string jsonData)
@@ -79,17 +80,17 @@ public class LoginPanel : MonoBehaviour,PanelInterface
         emailInputField.text = "";
         loginMessageText.text = "";
     }
-    private IEnumerator ChangePanel(GameObject toSetFalse, GameObject toSetTrue,int time, TextMeshProUGUI textChange = null, string text = "")
-    {
-        if (textChange != null)
-        {
-            textChange.gameObject.SetActive(true);
-            textChange.text = text;
-        }
-        yield return new WaitForSeconds(time);
-        if (textChange != null) textChange.gameObject.SetActive(false);
-        toSetFalse.SetActive(false);
-        toSetTrue.SetActive(true);
-        toSetTrue.GetComponent<PanelInterface>().ClearTexts();
-    }
+    //private IEnumerator ChangePanel(GameObject toSetFalse, GameObject toSetTrue,int time, TextMeshProUGUI textChange = null, string text = "")
+    //{
+    //    if (textChange != null)
+    //    {
+    //        textChange.gameObject.SetActive(true);
+    //        textChange.text = text;
+    //    }
+    //    yield return new WaitForSeconds(time);
+    //    if (textChange != null) textChange.gameObject.SetActive(false);
+    //    toSetFalse.SetActive(false);
+    //    toSetTrue.SetActive(true);
+    //    toSetTrue.GetComponent<PanelInterface>().ClearTexts();
+    //}
 }

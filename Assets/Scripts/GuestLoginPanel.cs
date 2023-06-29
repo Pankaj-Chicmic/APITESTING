@@ -7,6 +7,7 @@ using System.Collections;
 
 public class GuestLoginPanel : MonoBehaviour,PanelInterface
 {
+    [SerializeField] private UI ui;
     [SerializeField] private GameObject loggedInPanel;
     [SerializeField] private GameObject guestLoginPanel;
     [SerializeField] private GameObject loginPanel;
@@ -28,7 +29,7 @@ public class GuestLoginPanel : MonoBehaviour,PanelInterface
     }
     private void GoToLoginPanel()
     {
-        StartCoroutine(ChangePanel(guestLoginPanel, loginPanel,0));
+        StartCoroutine(ui.ChangePanel(guestLoginPanel, loginPanel,0));
     }
     private void GuestLogin()
     {
@@ -49,7 +50,7 @@ public class GuestLoginPanel : MonoBehaviour,PanelInterface
         GuestLoginDownloadHandlerType guestLoginDownloadHandlerType = JsonUtility.FromJson<GuestLoginDownloadHandlerType>(jsonData);
         PlayerPrefs.SetString(AllConstants.playerPrefAccessTokenVariableName, guestLoginDownloadHandlerType.data);
         PlayerPrefs.SetString(AllConstants.playerPrefUserNameVariableName, userNameInputField.text);
-        StartCoroutine(ChangePanel(guestLoginPanel,loggedInPanel,2,logInResultText, "Successfully Logged in as " + userNameInputField.text));
+        StartCoroutine(ui.ChangePanel(guestLoginPanel,loggedInPanel,2,logInResultText, "Successfully Logged in as " + userNameInputField.text));
         loggedInPanel.GetComponent<LoggedInPanel>().SetLoggedInDetails();
     }
     private void onGuestLoginFailureMethod(string jsonData)
@@ -72,19 +73,19 @@ public class GuestLoginPanel : MonoBehaviour,PanelInterface
         string pattern = @"^[A-Za-z0-9\-_]+$";
         return Regex.IsMatch(username, pattern);
     }
-    private IEnumerator ChangePanel(GameObject toSetFalse, GameObject toSetTrue,int time ,TextMeshProUGUI textChange = null, string text = "")
-    {
-        if (textChange != null)
-        {
-            textChange.gameObject.SetActive(true);
-            textChange.text = text;
-        }
-        yield return new WaitForSeconds(time);
-        if (textChange != null) textChange.gameObject.SetActive(false);
-        toSetFalse.SetActive(false);
-        toSetTrue.SetActive(true);
-        toSetTrue.GetComponent<PanelInterface>().ClearTexts();
-    }
+    //private IEnumerator ChangePanel(GameObject toSetFalse, GameObject toSetTrue,int time ,TextMeshProUGUI textChange = null, string text = "")
+    //{
+    //    if (textChange != null)
+    //    {
+    //        textChange.gameObject.SetActive(true);
+    //        textChange.text = text;
+    //    }
+    //    yield return new WaitForSeconds(time);
+    //    if (textChange != null) textChange.gameObject.SetActive(false);
+    //    toSetFalse.SetActive(false);
+    //    toSetTrue.SetActive(true);
+    //    toSetTrue.GetComponent<PanelInterface>().ClearTexts();
+    //}
     public void ChangeUserNameFieldStatus()
     {
         if (!ValidateUsername(userNameInputField.text) && userNameInputField.text!="")

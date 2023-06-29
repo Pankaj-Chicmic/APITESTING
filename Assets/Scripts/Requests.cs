@@ -15,6 +15,7 @@ public class Requests : MonoBehaviour
         {
             request.SetRequestHeader(AllConstants.authorizationHeaderVariableName, acessToken);
         }
+        request.timeout = 8;
         UnityWebRequestAsyncOperation asyncOperation = request.SendWebRequest();
         asyncOperation.completed += operation =>
         {
@@ -44,6 +45,7 @@ public class Requests : MonoBehaviour
         {
             request.SetRequestHeader(AllConstants.authorizationHeaderVariableName, acessToken);
         }
+        request.timeout = 8;
         UnityWebRequestAsyncOperation asyncOperation = request.SendWebRequest();
         asyncOperation.completed += operation =>
         {
@@ -73,6 +75,7 @@ public class Requests : MonoBehaviour
         {
             request.SetRequestHeader(AllConstants.authorizationHeaderVariableName, acessToken);
         }
+        request.timeout = 8;
         UnityWebRequestAsyncOperation asyncOperation = request.SendWebRequest();
         asyncOperation.completed += operation =>
         {
