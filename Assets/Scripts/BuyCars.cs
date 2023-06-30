@@ -22,6 +22,7 @@ public class BuyCars : MonoBehaviour
         onBuyCarFailureAction += onBuyCarFailureMethod;
         onBuyCarConnectionErrorAction += onBuyCarConnectionErrorMethod;
         buycar.onClick.AddListener(BuyCar);
+        allCarsListDropdown.ClearOptions();
         allCarsListDropdown.onValueChanged.AddListener(allCarsListDropdownChange);
     }
     private void BuyCar()

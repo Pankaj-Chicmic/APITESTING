@@ -13,6 +13,7 @@ public class CarPanel : MonoBehaviour, PanelInterface
     [SerializeField] private SellCars sellCars;
     [SerializeField] private EquipCars equipCars;
     [SerializeField] public List<string> allCarIds;
+    public bool loggedOut = false;
     private void Start()
     {
         goToLoggedInPanel.onClick.AddListener(GoToLoggedInPanel);
@@ -75,7 +76,14 @@ public class CarPanel : MonoBehaviour, PanelInterface
     }
     public void ClearTexts()
     {
-        
+        if(loggedOut) StartCoroutine(equipCars.GetAllBoughtCars());
+        loggedOut = false;
+    }
+    public void ResetBoughtCarInfo()
+    {
+        equipCars.SetOwnedCarsList(new List<TMP_Dropdown.OptionData>());
+        buyCars.SetAllCarsList(new List<TMP_Dropdown.OptionData>());
+        sellCars.SetOwnedCarsList(new List<TMP_Dropdown.OptionData>());
     }
 }
 public class EquipCarAndBuyCarDownloadType

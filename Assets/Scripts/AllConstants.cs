@@ -1,6 +1,6 @@
 public class AllConstants 
 {
-    public static string url = "https://00b4-112-196-113-2.ngrok-free.app";
+    public static string url = "https://8e73-112-196-113-2.ngrok-free.app";
     public static string authorizationHeaderVariableName = "Authorization";
     ////// GUEST LOGIN
     public static string guestLoginRoute = "/guest-login";

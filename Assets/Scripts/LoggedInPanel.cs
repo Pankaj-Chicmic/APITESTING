@@ -11,6 +11,7 @@ public class LoggedInPanel : MonoBehaviour,PanelInterface
     [SerializeField] private GameObject loggedInPanel;
     [SerializeField] private GameObject loginInPanel;
     [SerializeField] private GameObject carPanel;
+    [SerializeField] private EquipCars equipCars;
     [SerializeField] private TMP_InputField emailInputField;
     [SerializeField] private Button emailUpdateButton;
     [SerializeField] private Button logOutButton;
@@ -21,6 +22,7 @@ public class LoggedInPanel : MonoBehaviour,PanelInterface
     private Action<string> onEmailUpdateSuccessAction;
     private Action<string> onEmailUpdateFailureAction;
     private Action onEmailUpdateConnectionErrorAction;
+    public bool clickedCarPanel = false;
     private void Start()
     {
         onEmailUpdateSuccessAction += onEmailUpdateSuccessMethod;
@@ -46,6 +48,7 @@ public class LoggedInPanel : MonoBehaviour,PanelInterface
     }
     private void GetBuyCarPanel()
     {
+        clickedCarPanel = true;
         StartCoroutine(ui.ChangePanel(loggedInPanel, carPanel,0));
     }
     private void LogOut()
@@ -54,7 +57,9 @@ public class LoggedInPanel : MonoBehaviour,PanelInterface
         PlayerPrefs.SetString(AllConstants.playerPrefUserNameVariableName, "");
         PlayerPrefs.SetString(AllConstants.playerPrefEmailVariableName, "");
         loginInPanel.SetActive(true);
+        carPanel.GetComponent<CarPanel>().ResetBoughtCarInfo();
         StartCoroutine(ui.ChangePanel(loggedInPanel, loginInPanel, 0));
+        carPanel.GetComponent<CarPanel>().loggedOut = true && clickedCarPanel;
     }
     private void onEmailUpdateSuccessMethod(string jsonData)
     {

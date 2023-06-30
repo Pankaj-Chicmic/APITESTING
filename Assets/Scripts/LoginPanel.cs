@@ -80,17 +80,4 @@ public class LoginPanel : MonoBehaviour,PanelInterface
         emailInputField.text = "";
         loginMessageText.text = "";
     }
-    //private IEnumerator ChangePanel(GameObject toSetFalse, GameObject toSetTrue,int time, TextMeshProUGUI textChange = null, string text = "")
-    //{
-    //    if (textChange != null)
-    //    {
-    //        textChange.gameObject.SetActive(true);
-    //        textChange.text = text;
-    //    }
-    //    yield return new WaitForSeconds(time);
-    //    if (textChange != null) textChange.gameObject.SetActive(false);
-    //    toSetFalse.SetActive(false);
-    //    toSetTrue.SetActive(true);
-    //    toSetTrue.GetComponent<PanelInterface>().ClearTexts();
-    //}
 }

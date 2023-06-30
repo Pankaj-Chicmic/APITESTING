@@ -73,19 +73,6 @@ public class GuestLoginPanel : MonoBehaviour,PanelInterface
         string pattern = @"^[A-Za-z0-9\-_]+$";
         return Regex.IsMatch(username, pattern);
     }
-    //private IEnumerator ChangePanel(GameObject toSetFalse, GameObject toSetTrue,int time ,TextMeshProUGUI textChange = null, string text = "")
-    //{
-    //    if (textChange != null)
-    //    {
-    //        textChange.gameObject.SetActive(true);
-    //        textChange.text = text;
-    //    }
-    //    yield return new WaitForSeconds(time);
-    //    if (textChange != null) textChange.gameObject.SetActive(false);
-    //    toSetFalse.SetActive(false);
-    //    toSetTrue.SetActive(true);
-    //    toSetTrue.GetComponent<PanelInterface>().ClearTexts();
-    //}
     public void ChangeUserNameFieldStatus()
     {
         if (!ValidateUsername(userNameInputField.text) && userNameInputField.text!="")

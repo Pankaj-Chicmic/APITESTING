@@ -15,16 +15,15 @@ public class EquipCars : MonoBehaviour
     [SerializeField] private TextMeshProUGUI loadingScreenMessage;
     [SerializeField] private TMP_Dropdown ownedCarForEquipingDropdown;
     private List<TMP_Dropdown.OptionData> ownedCarsList = new List<TMP_Dropdown.OptionData>();
-    private string currentEquipCarId = "";
-    private string currentlyEquippedCarId = "";
-    private bool checkingAlreadyBoughtCar;
     private Action<string> onEquipCarSuccessAction;
     private Action<string> onEquipCarFailureAction;
     private Action onEquipCarConnectionErrorAction;
+    private string currentEquipCarId = "";
+    private string currentlyEquippedCarId = "";
+    private bool checkingAlreadyBoughtCar;
     private int index = 0;
     private void Start()
     {
-        index = 0;
         onEquipCarFailureAction += onEquipCarFailureMethod;
         onEquipCarSuccessAction += onEquipCarSuccessMethod;
         onEquipCarConnectionErrorAction += onEquipCarConnectionErrorMethod;
@@ -78,19 +77,22 @@ public class EquipCars : MonoBehaviour
     {
         currentEquipCarId = ownedCarForEquipingDropdown.options[index].text;
     }
-    private IEnumerator GetAllBoughtCars()
+    public IEnumerator GetAllBoughtCars()
     {
+        index = 0;
         loadingScreenMessage.gameObject.SetActive(true);
         while (index < carPanel.allCarIds.Count)
         {
             if (!checkingAlreadyBoughtCar)
             {
+                equipedCarMessage.text = "Checking For Ownership Of Car : " + carPanel.allCarIds[index];
                 checkingAlreadyBoughtCar = true;
-                APICalls.EquipCar(carPanel.allCarIds[index], acessToken: PlayerPrefs.GetString(AllConstants.playerPrefAccessTokenVariableName), onEquipCarSuccessAction, onFailure: onEquipCarFailureAction, onConnectionError: onEquipCarConnectionErrorAction); ;
+                APICalls.EquipCar(carPanel.allCarIds[index], acessToken: PlayerPrefs.GetString(AllConstants.playerPrefAccessTokenVariableName), onSuccess: onEquipCarSuccessAction, onFailure: onEquipCarFailureAction, onConnectionError: onEquipCarConnectionErrorAction); ;
                 index++;
             }
-            yield return new WaitForSeconds(Time.deltaTime);
+            yield return new WaitForSeconds(0.25f);
         }
+        equipedCarMessage.text = "";
         loadingScreenMessage.gameObject.SetActive(false);
     }
     public List<TMP_Dropdown.OptionData> GetOwnedCarsList()
