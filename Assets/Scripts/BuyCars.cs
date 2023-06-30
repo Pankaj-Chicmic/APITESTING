@@ -16,6 +16,7 @@ public class BuyCars : MonoBehaviour
     private Action<string> onBuyCarFailureAction;
     private Action onBuyCarConnectionErrorAction;
     private string currentBuyCarId = "";
+
     private void Start()
     {
         onBuyCarSuccessAction += onBuyCarSuccessMethod;
@@ -25,30 +26,39 @@ public class BuyCars : MonoBehaviour
         allCarsListDropdown.ClearOptions();
         allCarsListDropdown.onValueChanged.AddListener(allCarsListDropdownChange);
     }
+
     private void BuyCar()
     {
         APICalls.BuyCar(currentBuyCarId, PlayerPrefs.GetString(AllConstants.playerPrefAccessTokenVariableName), onBuyCarSuccessAction, onBuyCarFailureAction, onBuyCarConnectionErrorAction);
     }
+
     private void onBuyCarSuccessMethod(string jsonData)
     {
-        carPanel.CarBoughtOrSold(carIdBought : currentBuyCarId);
+        // Notify the car panel that a car was bought
+        carPanel.CarBoughtOrSold(carIdBought: currentBuyCarId);
     }
+
     private void onBuyCarFailureMethod(string jsonData)
     {
         EquipCarAndBuyCarDownloadType equipCarDownloadType = JsonUtility.FromJson<EquipCarAndBuyCarDownloadType>(jsonData);
+        // Handle failure response, if needed
     }
+
     private void onBuyCarConnectionErrorMethod()
     {
         Debug.Log("Connection Error");
     }
+
     private void allCarsListDropdownChange(int index)
     {
         currentBuyCarId = allCarsListDropdown.options[index].text;
     }
+
     public List<TMP_Dropdown.OptionData> GetAllCarsList()
     {
         return allCarsList;
     }
+
     public void SetAllCarsList(List<TMP_Dropdown.OptionData> allCarsList)
     {
         this.allCarsList = allCarsList;
